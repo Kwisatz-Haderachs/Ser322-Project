@@ -1,0 +1,85 @@
+buildscript {
+	dependencies {
+		classpath 'org.owasp:dependency-check-gradle:7.3.2'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.12'
+	id 'io.spring.dependency-management' version '1.1.0'
+	id "org.flywaydb.flyway" version "9.8.1"
+
+}
+
+
+group = 'asu.ser322'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+flyway {
+	url = 'jdbc:mysql://localhost:3306/music?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC'
+	user = 'root'
+	password = 'fxKDzk,WE9$W?Z%'
+	cleanDisabled = false
+}
+repositories {
+	mavenCentral()
+}
+
+bootJar.enabled = false
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'mysql:mysql-connector-java:8.0.12'
+	implementation 'org.flywaydb:flyway-mysql'
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//	testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	//testRuntimeOnly 'com.h2database:h2'
+}
+
+//test {
+//	useJUnitPlatform()
+//	minHeapSize = "1024m"
+//	maxHeapSize = "2048m"
+//}
+
+//task installFrontend(type: Exec) {
+//	inputs.file(file("frontend/yarn.lock"))
+//	inputs.file(file("frontend/package.json"))
+//	commandLine("yarn", "--cwd", "frontend", "install")
+//}
+//
+//task buildFrontend(type: Exec) {
+//	dependsOn("installFrontend")
+//	inputs.dir(file("frontend"))
+//	outputs.dir(file("frontend/build"))
+//	commandLine("yarn", "--cwd", "frontend", "build")
+//}
+//
+//task copyFrontend(type: Sync) {
+//	dependsOn("buildFrontend")
+//	from(file("./frontend/build"))
+//	into(file("$buildDir/resources/main/static"))
+//	doLast {
+//		println("copied built frontend to static resources")
+//	}
+//}
+//
+//task copyFrontendForIntelliJ(type: Sync) {
+//	dependsOn("buildFrontend")
+//	from(file("./frontend/build"))
+//	into(file("./src/main/resources/static"))
+//	doLast {
+//		println("copied built frontend to static resources")
+//	}
+//}
+//
+//bootRun {
+//	dependsOn(copyFrontend)
+//}
