@@ -14,12 +14,16 @@ public class SongController {
     public SongController(SongService songService) {
         this.songService = songService;
     }
+
+    // QUERIES ------------------------------------------------------------------------------
+
     @GetMapping("/api/song")
     public ResponseEntity<Song> songResponse(@RequestBody String title){
         Song song = songService.getSong(title);
         return ResponseEntity.ok().body(song);
     }
 
+    // CREATE -- UPDATE -- DELETE ------------------------------------------------------------
     @PostMapping("/api/song")
     public ResponseEntity<Void> createSongResponse(@RequestBody Map<String, String> songValues){
         songService.createSong(songValues);

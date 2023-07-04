@@ -1,5 +1,7 @@
 package asu.ser322.team6.entity;
 
+import asu.ser322.team6.service.GenreService;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Set;
@@ -69,5 +71,13 @@ public class Album {
 
     public void setArtistId(Long artistId) {
         this.artistId = artistId;
+    }
+
+    public boolean hasSongs() {
+        return this.albumSongs.size() > 0;
+    }
+
+    public Genre getAlbumGenre() {
+        return GenreService.findGenreByAlbum(this);
     }
 }

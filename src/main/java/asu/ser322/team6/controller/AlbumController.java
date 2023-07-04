@@ -5,14 +5,22 @@ import asu.ser322.team6.service.AlbumService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
+
 
 @RestController
 public class AlbumController {
-    private  final AlbumService albumService;
+    private final AlbumService albumService;
 
     public AlbumController(AlbumService albumService) {
         this.albumService = albumService;
+    }
+
+    @GetMapping("/api/album/genre={genre}")
+    public ResponseEntity<List<Album>> getAlbumsResponse(@PathVariable String genre){
+        var albums = albumService.findAlbumsByGenre(genre);
+        return ResponseEntity.of(java.util.Optional.of(albums));
     }
 
     @GetMapping("/api/album")
@@ -20,6 +28,13 @@ public class AlbumController {
         Album album = albumService.findByAlbumName(name);
         return ResponseEntity.ok().body(album);
     }
+
+    @GetMapping("/api/album/{id}")
+    public ResponseEntity<Album> getAlbumResponse(@PathVariable Long id) {
+        Album album = albumService.findByAlbumId(id);
+        return ResponseEntity.ok().body(album);
+    }
+
     @PostMapping("/api/album")
     public ResponseEntity<Void> createAlbumResponse(@RequestBody Map<String, String> albumValues){
         albumService.createAlbum(albumValues);

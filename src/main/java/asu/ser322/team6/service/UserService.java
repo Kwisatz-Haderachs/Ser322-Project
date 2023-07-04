@@ -13,6 +13,9 @@ public class UserService {
 
     public UserService(UsersRepository userRepository) {
         this.userRepository = userRepository;
+
+        if (ServiceManager.usersRepository == null)
+            ServiceManager.usersRepository = this.userRepository;
     }
 
     public User getUser(String username){
@@ -32,4 +35,5 @@ public class UserService {
     public void deleteUser(String asurite){
         userRepository.deleteById(asurite);
     }
+
 }

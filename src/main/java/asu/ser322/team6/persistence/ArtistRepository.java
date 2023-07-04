@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
     Artist findByArtistId(Long id);
     Artist findByArtistName(String name);
+
     @Override
     <S extends Artist> S save(S entity);
 

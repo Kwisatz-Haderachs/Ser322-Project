@@ -1,6 +1,7 @@
 package asu.ser322.team6.service;
 
 import asu.ser322.team6.entity.Playlist;
+import asu.ser322.team6.persistence.ArtistRepository;
 import asu.ser322.team6.persistence.PlaylistRepository;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,9 @@ public class PlaylistService {
 
     public PlaylistService(PlaylistRepository playlistRepository) {
         this.playlistRepository = playlistRepository;
+
+        if (ServiceManager.playlistRepository == null)
+            ServiceManager.playlistRepository = this.playlistRepository;
     }
 
     public Playlist getPlaylist(Long id){

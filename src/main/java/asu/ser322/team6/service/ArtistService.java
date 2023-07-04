@@ -1,6 +1,7 @@
 package asu.ser322.team6.service;
 
 import asu.ser322.team6.entity.Artist;
+import asu.ser322.team6.persistence.AlbumRepository;
 import asu.ser322.team6.persistence.ArtistRepository;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,9 @@ public class ArtistService {
 
     public ArtistService(ArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
+
+        if (ServiceManager.artistRepository == null)
+            ServiceManager.artistRepository = this.artistRepository;
     }
 
     public Artist getArtist(String name){
@@ -29,4 +33,5 @@ public class ArtistService {
     public void deleteArtist(Long id){
         artistRepository.deleteById(id);
     }
+
 }
