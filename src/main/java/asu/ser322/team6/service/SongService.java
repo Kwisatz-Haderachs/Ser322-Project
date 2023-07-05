@@ -1,9 +1,13 @@
 package asu.ser322.team6.service;
 
+import asu.ser322.team6.entity.Genre;
 import asu.ser322.team6.entity.Song;
+import asu.ser322.team6.persistence.AlbumRepository;
+import asu.ser322.team6.persistence.ArtistRepository;
 import asu.ser322.team6.persistence.SongRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -15,8 +19,19 @@ public class SongService {
         this.songRepository = songRepository;
     }
 
-    public Song getSong(String title){
+    public Song getSongByTitle(String title){
         return songRepository.findByTitle(title);
+    }
+
+    public List<Song> getSongs(){
+        return songRepository.findAll();
+    }
+    public Song getSong(Long id){
+        return songRepository.getReferenceById(id);
+    }
+
+    public List<Song> findSongsByGenreType(Genre genre) {
+        return this.songRepository.findSongByGenre(genre);
     }
 
     public void createSong(Map<String, String> values){

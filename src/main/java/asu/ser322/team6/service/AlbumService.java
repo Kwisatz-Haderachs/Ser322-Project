@@ -1,10 +1,13 @@
 package asu.ser322.team6.service;
 
 import asu.ser322.team6.entity.Album;
+import asu.ser322.team6.entity.Genre;
+import asu.ser322.team6.entity.Song;
 import asu.ser322.team6.persistence.AlbumRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -16,10 +19,56 @@ public class AlbumService {
         this.albumRepository = albumRepository;
     }
 
+    public List<Album> getAllAlbums(){
+        return albumRepository.findAll();
+    }
+
+    /**
+     * Retrieves an album of the name
+     * @param name album name
+     * @return a single album
+     */
     public Album findByAlbumName(String name){
         return albumRepository.findByAlbumName(name);
     }
+    /**
+     * Retrieves an album of the id
+     * @param id album id
+     * @return a single album
+     */
+    public Album findByAlbumId(Long id) { return albumRepository.findByAlbumId(id); }
 
+    /**
+     * Seeks albums by genre id
+     * @param id genre id
+     * @return a list of albums
+     */
+    public List<Album> findAlbumsByGenre(Long id) {
+        Genre genre = GenreService.findGenre(id);
+        var albums = albumRepository.findAll();
+        albums = albums.stream().filter( a -> a.hasSongs()).toList();
+        albums = albums.stream().filter( a -> a.getAlbumSongs().stream().anyMatch(s -> s.getGenre().equals(genre))).toList();
+        return albums;
+    }
+
+    public List<Song> findSongsByAlbum(String name) {
+        return albumRepository.findByAlbumName(name).getAlbumSongs().stream().toList();
+    }
+    public List<Song> findSongsByAlbum(Long id) {
+        return albumRepository.findByAlbumId(id).getAlbumSongs().stream().toList();
+    }
+    /**
+     * Seeks albums by genre name
+     * @param name genre name
+     * @return a list of albums
+     */
+    public List<Album> findAlbumsByGenre(String name) {
+        Genre genre = GenreService.findGenre(name);
+        var albums = albumRepository.findAll();
+        albums = albums.stream().filter( a -> a.hasSongs()).toList();
+        albums = albums.stream().filter( a -> a.getAlbumSongs().stream().anyMatch(s -> s.getGenre().equals(genre))).toList();
+        return albums;
+    }
     public void createAlbum(Map<String, String> values){
         Album album = new Album(
                 values.get("albumName"),

@@ -70,4 +70,13 @@ public class Album {
     public void setArtistId(Long artistId) {
         this.artistId = artistId;
     }
+
+    public boolean hasSongs() {
+        return this.albumSongs.size() > 0;
+    }
+
+    //TODO: Throws error when passed to frontend
+//    public Genre getAlbumGenre() {
+//        return GenreService.findGenreByAlbum(this);
+//    }
 }

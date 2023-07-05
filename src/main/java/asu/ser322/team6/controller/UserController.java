@@ -5,8 +5,10 @@ import asu.ser322.team6.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class UserController {
     private  final UserService userService;
@@ -15,6 +17,12 @@ public class UserController {
         this.userService = service;
     }
 
+
+    @GetMapping("/api/users")
+    public ResponseEntity<List<User>> playlistResponse(){
+        List<User> users = userService.getAllUser();
+        return ResponseEntity.ok().body(users);
+    }
 
     @GetMapping("/api/user")
     public ResponseEntity<User> playlistResponse(@RequestBody String asurite){

@@ -4,6 +4,7 @@ import asu.ser322.team6.entity.User;
 import asu.ser322.team6.persistence.UsersRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -20,7 +21,10 @@ public class UserService {
     }
 
     public void createUser(Map<String, String> values){
-        User user = new User(values.get("username"), values.get("asurite"));
+        User user = new User(
+                values.get("username"),
+                values.get("asurite")
+        );
         userRepository.save(user);
     }
 
@@ -31,5 +35,9 @@ public class UserService {
     }
     public void deleteUser(String asurite){
         userRepository.deleteById(asurite);
+    }
+
+    public List<User> getAllUser() {
+        return userRepository.findAll();
     }
 }

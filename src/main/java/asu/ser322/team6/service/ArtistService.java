@@ -1,8 +1,11 @@
 package asu.ser322.team6.service;
 
 import asu.ser322.team6.entity.Artist;
+import asu.ser322.team6.entity.Song;
 import asu.ser322.team6.persistence.ArtistRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ArtistService {
@@ -12,10 +15,19 @@ public class ArtistService {
         this.artistRepository = artistRepository;
     }
 
-    public Artist getArtist(String name){
-        return artistRepository.findByArtistName(name);
+    public List<Artist> getAllArtists(){
+        return artistRepository.findAll();
+    }
+    public Artist getArtist(Long id){
+        return artistRepository.getReferenceById(id);
     }
 
+    public List<Song> findSongsByArtist(Long id) {
+        return artistRepository.findByArtistId(id).getDiscography().stream().toList();
+    }
+    public List<Song> findSongsByArtist(String name) {
+        return artistRepository.findByArtistName(name).getDiscography().stream().toList();
+    }
     public void createArtist(String artistName){
         Artist artist = new Artist(artistName);
         artistRepository.save(artist);

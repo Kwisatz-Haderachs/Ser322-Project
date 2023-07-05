@@ -5,8 +5,10 @@ import asu.ser322.team6.service.PlaylistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class PlaylistController {
 
@@ -15,6 +17,13 @@ public class PlaylistController {
     public PlaylistController(PlaylistService playlistService) {
         this.playlistService = playlistService;
     }
+
+    @GetMapping("/api/playlists")
+    public ResponseEntity<List<Playlist>> playlistsResponse(){
+        List<Playlist> playlists = playlistService.getPlaylists();
+        return ResponseEntity.ok().body(playlists);
+    }
+
     @GetMapping("/api/playlist/{id}")
     public ResponseEntity<Playlist> playlistResponse(@PathVariable Long id){
         Playlist playlist = playlistService.getPlaylist(id);

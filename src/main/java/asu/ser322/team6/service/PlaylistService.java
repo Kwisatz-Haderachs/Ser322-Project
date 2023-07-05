@@ -4,8 +4,12 @@ import asu.ser322.team6.entity.Playlist;
 import asu.ser322.team6.persistence.PlaylistRepository;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.TooManyListenersException;
 
 @Component
 public class PlaylistService {
@@ -15,13 +19,17 @@ public class PlaylistService {
         this.playlistRepository = playlistRepository;
     }
 
+    public List<Playlist> getPlaylists(){
+        return playlistRepository.findAll();
+    }
+
     public Playlist getPlaylist(Long id){
         return playlistRepository.findByPlaylistId(id);
     }
 
     public void createPlaylist(Map<String, String> values){
         Playlist playlist = new Playlist(
-                Date.valueOf(values.get("creationDate")),
+                new Date(),
                 values.get("title"),
                 values.get("asurite")
         );

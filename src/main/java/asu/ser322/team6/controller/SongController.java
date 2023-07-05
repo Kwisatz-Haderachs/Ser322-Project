@@ -5,8 +5,10 @@ import asu.ser322.team6.service.SongService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
+@CrossOrigin
 @RestController
 public class SongController {
     private  final SongService songService;
@@ -14,9 +16,21 @@ public class SongController {
     public SongController(SongService songService) {
         this.songService = songService;
     }
+    @GetMapping("/api/songs")
+    public ResponseEntity<List<Song>> songResponse(){
+        List<Song> song = songService.getSongs();
+        return ResponseEntity.ok().body(song);
+    }
+
     @GetMapping("/api/song")
-    public ResponseEntity<Song> songResponse(@RequestBody String title){
-        Song song = songService.getSong(title);
+    public ResponseEntity<Song> songResponse(@RequestParam String title){
+        Song song = songService.getSongByTitle(title);
+        return ResponseEntity.ok().body(song);
+    }
+
+    @GetMapping("/api/song/{id}")
+    public ResponseEntity<Song> songResponse(@PathVariable Long id){
+        Song song = songService.getSong(id);
         return ResponseEntity.ok().body(song);
     }
 
