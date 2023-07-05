@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -19,8 +20,8 @@ public class PlaylistController {
     }
 
     @GetMapping("/api/playlists")
-    public ResponseEntity<List<Playlist>> playlistsResponse(){
-        List<Playlist> playlists = playlistService.getPlaylists();
+    public ResponseEntity<Set<Playlist>> playlistsResponse(){
+        Set<Playlist> playlists = playlistService.getPlaylists();
         return ResponseEntity.ok().body(playlists);
     }
 
@@ -31,20 +32,30 @@ public class PlaylistController {
     }
 
     @PostMapping("/api/playlist")
-    public ResponseEntity<Void> createPlaylistResponse(@RequestBody Map<String, String> playlistValues){
+    public ResponseEntity<String> createPlaylistResponse(@RequestBody Map<String, String> playlistValues){
         playlistService.createPlaylist(playlistValues);
-        return ResponseEntity.ok().build();
+        String statusResponse = "Playlist created";
+        return ResponseEntity.ok().body(statusResponse);
     }
 
     @PatchMapping("/api/playlist/{id}")
-    public ResponseEntity<Void> updatePlaylistResponse(@PathVariable Long id, @RequestBody String playlistName){
+    public ResponseEntity<String> updatePlaylistResponse(@PathVariable Long id, @RequestBody String playlistName){
         playlistService.updatePlaylist(id, playlistName);
-        return ResponseEntity.ok().build();
+        String statusResponse = String.format("Playlist: %d updated", id);
+        return ResponseEntity.ok().body(statusResponse);
+    }
+
+    @PatchMapping("/api/playlist/{id}/songs/{songId}")
+    public ResponseEntity<String> addSongToPlaylistResponse(@PathVariable Long id, @PathVariable Long songId){
+        playlistService.updatePlaylistSongs(id, songId);
+        String statusResponse = String.format("Song added to playlist: %d", id);
+        return ResponseEntity.ok().body(statusResponse);
     }
 
     @DeleteMapping("/api/playlist/{id}")
-    public ResponseEntity<Void> deletePlaylistResponse(@PathVariable Long id){
+    public ResponseEntity<String> deletePlaylistResponse(@PathVariable Long id){
         playlistService.deletePlaylist(id);
-        return ResponseEntity.ok().build();
+        String statusResponse = String.format("Playlist: %d deleted", id);
+        return ResponseEntity.ok().body(statusResponse);
     }
 }

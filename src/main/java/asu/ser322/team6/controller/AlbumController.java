@@ -5,7 +5,7 @@ import asu.ser322.team6.service.AlbumService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 import java.util.Map;
 
 @CrossOrigin
@@ -18,37 +18,39 @@ public class AlbumController {
     }
 
     @GetMapping("/api/albums")
-    public ResponseEntity<List<Album>> getAlbumsResponse(){
-        List<Album> album = albumService.getAllAlbums();
+    public ResponseEntity<Set<Album>> getAlbumsResponse(){
+        Set<Album> album = albumService.getAllAlbums();
         return ResponseEntity.ok().body(album);
     }
     @GetMapping("/api/album")
-    public ResponseEntity<Album> getAlbumResponse(@RequestParam String name){
+    public ResponseEntity<Album> getAlbumResponse(@RequestParam(name="name") String name){
         Album album = albumService.findByAlbumName(name);
         return ResponseEntity.ok().body(album);
     }
 
     @GetMapping("/api/album/genre")
-    public ResponseEntity<List<Album>> getAlbumsResponse(@RequestParam String genre){
+    public ResponseEntity<Set<Album>> getAlbumsResponse(@RequestParam(name="genre") String genre){
         var albums = albumService.findAlbumsByGenre(genre);
         return ResponseEntity.of(java.util.Optional.of(albums));
     }
 
     @PostMapping("/api/album")
-    public ResponseEntity<Void> createAlbumResponse(@RequestBody Map<String, String> albumValues){
+    public ResponseEntity<String> createAlbumResponse(@RequestBody Map<String, String> albumValues){
         albumService.createAlbum(albumValues);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Album created");
     }
 
     @PatchMapping("/api/album/{id}")
-    public ResponseEntity<Void> updateAlbumResponse(@PathVariable Long id, @RequestBody Map<String, String> albumValues){
+    public ResponseEntity<String> updateAlbumResponse(@PathVariable Long id, @RequestBody Map<String, String> albumValues){
         albumService.updateAlbum(id, albumValues);
-        return ResponseEntity.ok().build();
+        String statusResponse = String.format("Album: %d updated", id);
+        return ResponseEntity.ok().body(statusResponse);
     }
 
     @DeleteMapping("/api/album/{id}")
-    public ResponseEntity<Void> deleteAlbumResponse(@PathVariable Long id){
+    public ResponseEntity<String> deleteAlbumResponse(@PathVariable Long id){
         albumService.deleteAlbum(id);
-        return ResponseEntity.ok().build();
+        String statusResponse = String.format("Album: %d delete", id);
+        return ResponseEntity.ok().body(statusResponse);
     }
 }

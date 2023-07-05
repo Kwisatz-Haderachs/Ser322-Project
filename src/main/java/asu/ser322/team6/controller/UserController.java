@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -19,8 +20,8 @@ public class UserController {
 
 
     @GetMapping("/api/users")
-    public ResponseEntity<List<User>> playlistResponse(){
-        List<User> users = userService.getAllUser();
+    public ResponseEntity<Set<User>> playlistResponse(){
+        Set<User> users = userService.getAllUser();
         return ResponseEntity.ok().body(users);
     }
 
@@ -31,19 +32,19 @@ public class UserController {
     }
 
     @PostMapping("/api/user")
-    public ResponseEntity<Void> createUserResponse(@RequestBody Map<String, String> userValues){
+    public ResponseEntity<String> createUserResponse(@RequestBody Map<String, String> userValues){
         userService.createUser(userValues);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/api/user/{asurite}")
-    public ResponseEntity<Void> updateUserResponse(@PathVariable String asurite, @RequestBody String userValues){
+    public ResponseEntity<String> updateUserResponse(@PathVariable String asurite, @RequestBody String userValues){
         userService.updateUser(asurite, userValues);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/api/user/{id}")
-    public ResponseEntity<Void> deleteUserResponse(@PathVariable String asurite){
+    public ResponseEntity<String> deleteUserResponse(@PathVariable String asurite){
         userService.deleteUser(asurite);
         return ResponseEntity.ok().build();
     }

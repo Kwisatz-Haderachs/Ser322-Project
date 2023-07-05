@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -17,13 +18,13 @@ public class SongController {
         this.songService = songService;
     }
     @GetMapping("/api/songs")
-    public ResponseEntity<List<Song>> songResponse(){
-        List<Song> song = songService.getSongs();
+    public ResponseEntity<Set<Song>> songResponse(){
+        Set<Song> song = songService.getSongs();
         return ResponseEntity.ok().body(song);
     }
 
     @GetMapping("/api/song")
-    public ResponseEntity<Song> songResponse(@RequestParam String title){
+    public ResponseEntity<Song> songResponse(@RequestParam(name="name") String title){
         Song song = songService.getSongByTitle(title);
         return ResponseEntity.ok().body(song);
     }
@@ -35,20 +36,22 @@ public class SongController {
     }
 
     @PostMapping("/api/song")
-    public ResponseEntity<Void> createSongResponse(@RequestBody Map<String, String> songValues){
+    public ResponseEntity<String> createSongResponse(@RequestBody Map<String, String> songValues){
         songService.createSong(songValues);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Song created");
     }
 
     @PatchMapping("/api/song/{id}")
-    public ResponseEntity<Void> updateUserResponse(@PathVariable Long id, @RequestBody Map<String, String> songValues){
+    public ResponseEntity<String> updateUserResponse(@PathVariable Long id, @RequestBody Map<String, String> songValues){
         songService.updateSong(id, songValues);
-        return ResponseEntity.ok().build();
+        String statusResponse = String.format("Song: %d updated", id);
+        return ResponseEntity.ok().body(statusResponse);
     }
 
     @DeleteMapping("/api/song/{id}")
-    public ResponseEntity<Void> deleteArtistResponse(@PathVariable Long id){
+    public ResponseEntity<String> deleteArtistResponse(@PathVariable Long id){
         songService.deleteSong(id);
-        return ResponseEntity.ok().build();
+        String statusResponse = String.format("Song: %d deleted", id);
+        return ResponseEntity.ok().body(statusResponse);
     }
 }

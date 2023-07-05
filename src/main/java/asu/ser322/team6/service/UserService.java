@@ -4,8 +4,9 @@ import asu.ser322.team6.entity.User;
 import asu.ser322.team6.persistence.UsersRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class UserService {
@@ -37,7 +38,7 @@ public class UserService {
         userRepository.deleteById(asurite);
     }
 
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public Set<User> getAllUser() {
+        return new HashSet<>(userRepository.findAll());
     }
 }

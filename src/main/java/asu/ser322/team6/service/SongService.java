@@ -2,13 +2,13 @@ package asu.ser322.team6.service;
 
 import asu.ser322.team6.entity.Genre;
 import asu.ser322.team6.entity.Song;
-import asu.ser322.team6.persistence.AlbumRepository;
-import asu.ser322.team6.persistence.ArtistRepository;
 import asu.ser322.team6.persistence.SongRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class SongService {
@@ -23,8 +23,8 @@ public class SongService {
         return songRepository.findByTitle(title);
     }
 
-    public List<Song> getSongs(){
-        return songRepository.findAll();
+    public Set<Song> getSongs(){
+        return new HashSet<>(songRepository.findAll());
     }
     public Song getSong(Long id){
         return songRepository.getReferenceById(id);

@@ -7,8 +7,10 @@ import asu.ser322.team6.persistence.AlbumRepository;
 import org.springframework.stereotype.Component;
 
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class AlbumService {
@@ -19,8 +21,8 @@ public class AlbumService {
         this.albumRepository = albumRepository;
     }
 
-    public List<Album> getAllAlbums(){
-        return albumRepository.findAll();
+    public Set<Album> getAllAlbums(){
+        return new HashSet<>(albumRepository.findAll());
     }
 
     /**
@@ -38,22 +40,10 @@ public class AlbumService {
      */
     public Album findByAlbumId(Long id) { return albumRepository.findByAlbumId(id); }
 
-    /**
-     * Seeks albums by genre id
-     * @param id genre id
-     * @return a list of albums
-     */
-    public List<Album> findAlbumsByGenre(Long id) {
-        Genre genre = GenreService.findGenre(id);
-        var albums = albumRepository.findAll();
-        albums = albums.stream().filter( a -> a.hasSongs()).toList();
-        albums = albums.stream().filter( a -> a.getAlbumSongs().stream().anyMatch(s -> s.getGenre().equals(genre))).toList();
-        return albums;
-    }
-
     public List<Song> findSongsByAlbum(String name) {
         return albumRepository.findByAlbumName(name).getAlbumSongs().stream().toList();
     }
+
     public List<Song> findSongsByAlbum(Long id) {
         return albumRepository.findByAlbumId(id).getAlbumSongs().stream().toList();
     }
@@ -62,13 +52,27 @@ public class AlbumService {
      * @param name genre name
      * @return a list of albums
      */
-    public List<Album> findAlbumsByGenre(String name) {
+    public Set<Album> findAlbumsByGenre(String name) {
         Genre genre = GenreService.findGenre(name);
+        return getAlbumHashSet(genre);
+    }
+    /**
+     * Seeks albums by genre id
+     * @param id genre id
+     * @return a list of albums
+     */
+    public Set<Album> findAlbumsByGenre(Long id) {
+        Genre genre = GenreService.findGenre(id);
+        return getAlbumHashSet(genre);
+    }
+
+    private HashSet<Album> getAlbumHashSet(Genre genre) {
         var albums = albumRepository.findAll();
         albums = albums.stream().filter( a -> a.hasSongs()).toList();
         albums = albums.stream().filter( a -> a.getAlbumSongs().stream().anyMatch(s -> s.getGenre().equals(genre))).toList();
-        return albums;
+        return new HashSet<>(albums);
     }
+
     public void createAlbum(Map<String, String> values){
         Album album = new Album(
                 values.get("albumName"),

@@ -5,7 +5,8 @@ import asu.ser322.team6.entity.Song;
 import asu.ser322.team6.persistence.ArtistRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class ArtistService {
@@ -15,18 +16,18 @@ public class ArtistService {
         this.artistRepository = artistRepository;
     }
 
-    public List<Artist> getAllArtists(){
-        return artistRepository.findAll();
+    public Set<Artist> getAllArtists(){
+        return new HashSet<>(artistRepository.findAll());
     }
     public Artist getArtist(Long id){
         return artistRepository.getReferenceById(id);
     }
 
-    public List<Song> findSongsByArtist(Long id) {
-        return artistRepository.findByArtistId(id).getDiscography().stream().toList();
+    public Set<Song> findSongsByArtist(Long id) {
+        return new HashSet<>(artistRepository.findByArtistId(id).getDiscography());
     }
-    public List<Song> findSongsByArtist(String name) {
-        return artistRepository.findByArtistName(name).getDiscography().stream().toList();
+    public Set<Song> findSongsByArtist(String name) {
+        return new HashSet<>(artistRepository.findByArtistName(name).getDiscography());
     }
     public void createArtist(String artistName){
         Artist artist = new Artist(artistName);
