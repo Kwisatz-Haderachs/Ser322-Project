@@ -2,12 +2,12 @@ package asu.ser322.team6.entity;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Album {
     @Id
-    @GeneratedValue
     private Long albumId;
 
     private String albumName;
@@ -29,10 +29,12 @@ public class Album {
     public Album() {
     }
 
-    public Album(String albumName, Time duration, Long artistId) {
+    public Album(Long albumId, String albumName, Time duration, Long artistId) {
+        this.albumId = albumId;
         this.albumName = albumName;
         this.duration = duration;
         this.artistId = artistId;
+        this.albumSongs = new HashSet<>();
     }
 
     public Set<Song> getAlbumSongs() {

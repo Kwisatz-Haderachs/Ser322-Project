@@ -75,6 +75,7 @@ public class AlbumService {
 
     public void createAlbum(Map<String, String> values){
         Album album = new Album(
+                Long.valueOf(values.get("albumId")),
                 values.get("albumName"),
                 Time.valueOf(values.get("duration")),
                 Long.valueOf("artistId")

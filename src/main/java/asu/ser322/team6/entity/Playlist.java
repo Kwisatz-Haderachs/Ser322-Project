@@ -2,12 +2,12 @@ package asu.ser322.team6.entity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Playlist {
     @Id
-    @GeneratedValue
     private Long playlistId;
     private Date creationDate;
     private String title;
@@ -27,10 +27,12 @@ public class Playlist {
     public Playlist() {
     }
 
-    public Playlist(Date creationDate, String title, String userId) {
+    public Playlist(Long playlistId, Date creationDate, String title, String asurite) {
+        this.playlistId = playlistId;
         this.creationDate = creationDate;
         this.title = title;
-        this.asurite = userId;
+        this.asurite = asurite;
+        this.playlistSongs = new HashSet<>();
     }
 
     public Long getPlaylistId() {

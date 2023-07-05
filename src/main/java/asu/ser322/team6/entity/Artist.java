@@ -2,12 +2,13 @@ package asu.ser322.team6.entity;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 public class Artist {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long artistId;
     private String artistName;
     @JoinTable(
@@ -25,8 +26,10 @@ public class Artist {
     public Artist() {
     }
 
-    public Artist(String name) {
-        this.artistName = name;
+    public Artist(Long artistId, String artistName) {
+        this.artistId = artistId;
+        this.artistName = artistName;
+        this.discography = new HashSet<>();
     }
 
     public Long getArtistId() {

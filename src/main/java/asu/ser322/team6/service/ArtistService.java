@@ -6,6 +6,7 @@ import asu.ser322.team6.persistence.ArtistRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Component
@@ -29,8 +30,10 @@ public class ArtistService {
     public Set<Song> findSongsByArtist(String name) {
         return new HashSet<>(artistRepository.findByArtistName(name).getDiscography());
     }
-    public void createArtist(String artistName){
-        Artist artist = new Artist(artistName);
+    public void createArtist(Map<String, String> values){
+        Artist artist = new Artist(
+                Long.parseLong(values.get("artistId")),
+                values.get("artistName"));
         artistRepository.save(artist);
     }
 

@@ -29,6 +29,7 @@ public class PlaylistService {
 
     public void createPlaylist(Map<String, String> values){
         Playlist playlist = new Playlist(
+                Long.parseLong(values.get("playlistId")),
                 new Date(),
                 values.get("title"),
                 values.get("asurite")

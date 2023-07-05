@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @CrossOrigin
@@ -42,7 +43,7 @@ public class ArtistController {
     }
 
     @PostMapping("/api/artist")
-    public ResponseEntity<String> createArtistResponse(@RequestBody String artistValues){
+    public ResponseEntity<String> createArtistResponse(@RequestBody Map<String, String> artistValues){
         artistService.createArtist(artistValues);
         return ResponseEntity.ok().body("Artist created");
     }

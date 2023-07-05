@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Song {
     @Id
-    @GeneratedValue
     private Long songId;
 
     private String title;
@@ -24,11 +23,13 @@ public class Song {
     @ManyToOne
     private Genre genre;
 
-    public Song(String title, int yearOfRelease, String duration) {
+    public Song(Long songId, String title, int yearOfRelease, String duration) {
+        this.songId = songId;
         this.title = title;
         this.yearOfRelease = yearOfRelease;
         this.duration = duration;
     }
+
     public Song(){}
 
     public Long getSongId() {

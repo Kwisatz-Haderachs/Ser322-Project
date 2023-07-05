@@ -36,6 +36,7 @@ public class SongService {
 
     public void createSong(Map<String, String> values){
         Song song = new Song(
+                Long.parseLong(values.get("songId")),
                 values.get("title"),
                 Integer.parseInt(values.get("yearOfRelease")),
                 values.get("duration")

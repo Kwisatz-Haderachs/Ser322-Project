@@ -34,18 +34,18 @@ public class UserController {
     @PostMapping("/api/user")
     public ResponseEntity<String> createUserResponse(@RequestBody Map<String, String> userValues){
         userService.createUser(userValues);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Request Successful");
     }
 
     @PatchMapping("/api/user/{asurite}")
     public ResponseEntity<String> updateUserResponse(@PathVariable String asurite, @RequestBody String userValues){
         userService.updateUser(asurite, userValues);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Request Successful");
     }
 
     @DeleteMapping("/api/user/{id}")
     public ResponseEntity<String> deleteUserResponse(@PathVariable String asurite){
         userService.deleteUser(asurite);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Request Successful");
     }
 }
